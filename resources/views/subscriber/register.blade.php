@@ -21,7 +21,7 @@
         </div>
 
     @endif
-    <form action="{{route('subscriber.store')}}" method="POST">
+    <form action="{{route('subscriber.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="container">
             <h1 class="mb-3"> Register</h1>
@@ -45,7 +45,7 @@
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
-            <input type="text" class="form-control" value="{{old('password_confirmation')}}" name="password_confirmation"  id="exampleInputPassword1">
+            <input type="text" class="form-control"  name="password_confirmation"  id="exampleInputPassword1">
             @error('password_confirmation')
             <div class="text-danger">
               {{$message}}
@@ -72,6 +72,16 @@
             </div>
             @enderror
         </div>
+        <div class="mb-3">
+          <label class="form-label">Image</label>
+          <input type="file" class="form-control" name="image"
+              placeholder="image" type="text">
+          @error('image')
+              <div class="text-danger">
+                  {{ $message }}
+              </div>
+          @enderror
+      </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Phone</label>
             <input type="text" class="form-control" value="{{old('phone')}}" name="phone" id="exampleInputPassword1">

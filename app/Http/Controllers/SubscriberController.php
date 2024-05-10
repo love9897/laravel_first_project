@@ -33,28 +33,27 @@ class SubscriberController extends Controller
             'password' => 'required|confirmed|min:8|max:8',
             'first_name' => 'required',
             'last_name' => 'required',
-            'phone' => 'required'
+            'phone' => 'required',
+            'image' => 'required|image|mimes:png,jpg,jpeg,gif,svg'
         ]);
-        // $email = $request->email;
-        // $password = $request->password;
-        // $firstname = $request->first_name;
-        // $lastname = $request->last_name;
-        // $phone = $request->phone;
 
-        // $sub = new Subscriber();
-        // $sub->email = $email;
-        // $sub->password = $password;
-        // $sub->first_name = $firstname;
-        // $sub->last_name = $lastname;
-        // $sub->phone = $phone;
-        // $subscriber = $sub->save();
+        $unique_name = '';
 
-        $result = Subscriber::create($request->all());
+        if (isset($request->image)) {
+            $extention = $request->image->extension();
+            $unique_name = time() . '.' . $extention;
+            $request->image->storeAS('public/upload/images' . $unique_name);
+        }
+
+        $arr = $request->all();
+        $arr['image'] = $unique_name;
+
+        $result = Subscriber::create($arr);
 
         if ($result) {
 
             return back()->with('success', 'Registered Successfully!');
-            
+
         } else {
 
             return back()->with('error', 'oops..something went wrong. please try again!');
@@ -64,7 +63,7 @@ class SubscriberController extends Controller
     /**
      * Display the specified resource.
      */
-    
+
     public function show(string $id)
     {
         //
@@ -89,8 +88,14 @@ class SubscriberController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+
+        
+
     }
+
+
+
+
 }
